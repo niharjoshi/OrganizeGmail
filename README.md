@@ -3,6 +3,9 @@ Each Google Account includes 15 GB of storage, which is shared across Gmail, Goo
 
 Meet OG, a new way to free up your Gmail inbox and make more space available for the conversations that really matter. List and filter your emails by sender or domain and use the treemap to nuke whatever you don't need. Get rid of those pesky Amazon delivery emails and Zuckerberg's Metaverse spam, with one click of a button.
 
+## Tech Stack
+![Tech Stack](https://user-images.githubusercontent.com/50745306/200483216-a7751d62-208b-47aa-bb34-d0e966c67f31.jpg)
+
 ## Features
 - Import all your Google account emails in one place
 - Index emails for quick retreival and query support
