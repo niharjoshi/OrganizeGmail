@@ -19,4 +19,6 @@ OG uses your Google account for authentication so your login is securely handled
 ## Tech Stack
 
 ## MVP
-Our goal is to deliver a fully functional dashboard hosted on Vercel that logs you in with Google's SSO and helps you visualize your Gmail inbox by filters like sender and domain. The app will also allow you to mass delete emails based on the selected filter. Although the aformentioned features are part of our planned minimum viable product, we will try to include the recompression of attachments feature to save even more Google Drive space.
+Our goal for the minimum viablw product is to deliver a Django dashboard hosted on Vercel that logs you in with Google's SSO and helps you visualize your Gmail inbox by filters like sender and domain.
+
+However, our final aim is to allow the user to mass delete emails based on the selected filter. We will also try to include the recompression of attachments feature to save even more Google Drive space.
