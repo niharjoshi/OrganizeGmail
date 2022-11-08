@@ -3,9 +3,6 @@ Each Google Account includes 15 GB of storage, which is shared across Gmail, Goo
 
 Meet OG, a new way to free up your Gmail inbox and make more space available for the conversations that really matter. List and filter your emails by sender or domain and use the treemap to nuke whatever you don't need. Get rid of those pesky Amazon delivery emails and Zuckerberg's Metaverse spam, with one click of a button.
 
-## Tech Stack
-![Tech Stack](https://user-images.githubusercontent.com/50745306/200483216-a7751d62-208b-47aa-bb34-d0e966c67f31.jpg)
-
 ## Features
 - Import all your Google account emails in one place
 - Index emails for quick retreival and query support
@@ -20,6 +17,7 @@ OG isn't just a CRUD app for email management - it's a colourful dashboard that 
 OG uses your Google account for authentication so your login is securely handled by the google-auth OAuth servers. We do not handle your usernames or password in our backend in any way.
 
 ## Tech Stack
+![Tech Stack Diagram](https://user-images.githubusercontent.com/50745306/200488463-3ed893ee-77de-4844-99b1-c16784094fad.jpg)
 
 ## MVP
 (Placeholder Vercel URL for our app: [Organize Gmail](http://organize-gmail.vercel.app/))
