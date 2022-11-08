@@ -20,6 +20,7 @@ OG uses your Google account for authentication so your login is securely handled
 
 ## MVP
 (Placeholder Vercel URL for our app: [Organize Gmail](http://organize-gmail.vercel.app/))
+
 Our goal for the minimum viable product is to deliver a Django dashboard hosted on Vercel that logs you in with Google's SSO and helps you visualize your Gmail inbox by filters like sender and domain.
 
 However, our final aim is to allow the user to mass delete emails based on the selected filter. We will also try to include the recompression of attachments feature to save even more Google Drive space.
