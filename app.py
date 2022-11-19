@@ -17,8 +17,8 @@ import requests
 from dotenv import load_dotenv
 
 # Internal imports
-from db import init_db_command
-from user import User
+from api.db import init_db_command
+from api.user import User
 
 # Configuration
 load_dotenv()
