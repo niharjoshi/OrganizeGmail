@@ -3,22 +3,26 @@ from src.supabase import Supabase
 
 class User(UserMixin):
 
-    def __init__(self, id_, name, email, profile_pic):
-        self.id = id_
+    def __init__(self, gid, name, email, picture):
+        self.gid = gid
         self.name = name
         self.email = email
-        self.profile_pic = profile_pic
+        self.picture = picture
+    
+    def get_id(self):
+        return (self.gid)
     
     @staticmethod
     def get(user_id):
-        db = Supabase.getSupabaseClient()
-        user = db.table("Users").select("*").eq("id", user_id).execute().data[0]
-        if not user:
+        db = Supabase().getSupabaseClient()
+        try:
+            user = db.table("Users").select("*").eq("gid", user_id).execute().data[0]
+        except IndexError:
             return None
-        user = User(id_=user[0], name=user[1], email=user[2], picture=user[3])
+        user = User(gid=user["gid"], name=user["name"], email=user["email"], picture=user["picture"])
         return user
     
     @staticmethod
-    def create(id, name, email, picture):
-        db = Supabase.getSupabaseClient()
-        db.table("Users").insert({"id": id, "name": name, "email": email, "picture": picture}).execute()
+    def create(gid, name, email, picture):
+        db = Supabase().getSupabaseClient()
+        db.table("Users").insert({"gid": gid, "name": name, "email": email, "picture": picture}).execute()

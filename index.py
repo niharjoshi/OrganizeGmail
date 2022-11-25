@@ -29,7 +29,7 @@ def index():
             "<div><p>Google Profile Picture:</p>"
             '<img src="{}" alt="Google profile pic"></img></div>'
             '<a class="button" href="/logout">Logout</a>'.format(
-                current_user.name, current_user.email, current_user.profile_pic
+                current_user.name, current_user.email, current_user.picture
             )
         )
     else:
@@ -47,7 +47,7 @@ def callback():
     if not email_verified:
         return "User email not available or not verified by Google.", 400
     (unique_id, user_name, user_email, user_picture) = user_details
-    user = User(id=unique_id, name=user_name, email=user_email, picture=user_picture)
+    user = User(gid=unique_id, name=user_name, email=user_email, picture=user_picture)
     if not User.get(unique_id):
         User.create(unique_id, user_name, user_email, user_picture)
     login_user(user)
