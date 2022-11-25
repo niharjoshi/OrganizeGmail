@@ -4,3 +4,4 @@ oauthlib
 pyOpenSSL
 Flask-Login
 python-dotenv
+supabase
