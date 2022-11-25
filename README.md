@@ -25,3 +25,6 @@ OG uses your Google account for authentication so your login is securely handled
 Our goal for the minimum viable product is to deliver a Django dashboard hosted on Vercel that logs you in with Google's SSO and helps you visualize your Gmail inbox by filters like sender and domain.
 
 However, our final aim is to allow the user to mass delete emails based on the selected filter. We will also try to include the recompression of attachments feature to save even more Google Drive space.
+
+## MVP Deliverable Update:
+Our Google SSO works and logs us in but we are not able to host it on Vercel. For some reason, Vercel serves the index.py file instead of the API itself.
