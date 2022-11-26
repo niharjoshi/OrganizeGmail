@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from supabase_utils import SupabaseUtils
+from api.supabase_utils import SupabaseUtils
 
 class User(UserMixin):
 

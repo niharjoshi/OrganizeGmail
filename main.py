@@ -7,8 +7,8 @@ from flask_login import (
     login_user,
     logout_user,
 )
-from google_oauth import GoogleOAuth
-from user import User
+from api.google_oauth import GoogleOAuth
+from api.user import User
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
