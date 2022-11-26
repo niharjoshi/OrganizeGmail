@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from supabase import Supabase
+from supabase_utils import SupabaseUtils
 
 class User(UserMixin):
 
@@ -14,7 +14,7 @@ class User(UserMixin):
     
     @staticmethod
     def get(user_id):
-        db = Supabase().getSupabaseClient()
+        db = SupabaseUtils().getSupabaseClient()
         try:
             user = db.table("Users").select("*").eq("gid", user_id).execute().data[0]
         except IndexError:
@@ -24,5 +24,5 @@ class User(UserMixin):
     
     @staticmethod
     def create(gid, name, email, picture):
-        db = Supabase().getSupabaseClient()
+        db = SupabaseUtils().getSupabaseClient()
         db.table("Users").insert({"gid": gid, "name": name, "email": email, "picture": picture}).execute()
