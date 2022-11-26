@@ -7,8 +7,8 @@ from flask_login import (
     login_user,
     logout_user,
 )
-from src.google_oauth import GoogleOAuth
-from src.user import User
+from google_oauth import GoogleOAuth
+from user import User
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
@@ -34,7 +34,6 @@ def index():
         )
     else:
         return '<a class="button" href="/login">Google Login</a>'
-
 
 @app.route("/login")
 def login():
