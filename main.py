@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, request, url_for
+from flask import Flask, redirect, request, url_for, render_template
 from flask_login import (
     LoginManager,
     current_user,
@@ -33,7 +33,7 @@ def index():
             )
         )
     else:
-        return '<a class="button" href="/login">Google Login</a>'
+        return render_template("login.html")
 
 @app.route("/login")
 def login():
