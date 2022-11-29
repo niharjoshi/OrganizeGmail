@@ -20,7 +20,7 @@ OG uses your Google account for authentication so your login is securely handled
 ![Tech Stack Diagram](https://user-images.githubusercontent.com/50745306/200488463-3ed893ee-77de-4844-99b1-c16784094fad.jpg)
 
 ## MVP
-(Placeholder Vercel URL for our app: [Organize Gmail](organizegmail-369023.ue.r.appspot.com))
+(Placeholder URL for our app: [Organize Gmail](https://organizegmail-369023.ue.r.appspot.com/))
 
 Our goal for the minimum viable product is to deliver a Django dashboard hosted on Vercel that logs you in with Google's SSO and helps you visualize your Gmail inbox by filters like sender and domain.
 
