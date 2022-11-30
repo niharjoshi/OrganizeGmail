@@ -4,9 +4,20 @@ from oauthlib.oauth2 import WebApplicationClient
 import requests
 import json
 
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+import os.path
+import base64
+import email
+from bs4 import BeautifulSoup
+
 load_dotenv()
+SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
 class GoogleOAuth:
+
+    domainDict = {}
 
     def __init__(self):
         self.GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
@@ -57,3 +68,60 @@ class GoogleOAuth:
         else:
             return False, (None)
         return True, (unique_id, user_name, user_email, user_picture)
+
+    def addToDictionary(self, s):
+        angle = s.split('<')
+        rate = angle[1].split('@')
+        domain = rate[1].split('.')
+        domainName = domain[0]
+        if(domainName in self.domainDict):
+            self.domainDict[domainName]+=1
+        else:
+            self.domainDict[domainName]=1
+
+    def getDomainList(self):
+        creds = None
+        if not creds or not creds.valid:
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file('/Users/indrasaikiranvalluru/Desktop/OrganizeGmail/api/credentials.json', SCOPES)
+                creds = flow.run_local_server(port=0)
+
+        service = build('gmail', 'v1', credentials=creds)
+
+        result = service.users().messages().list(userId='me').execute()
+
+        result = service.users().messages().list(maxResults=200, userId='me').execute()
+        messages = result.get('messages')
+        print(type(messages))
+
+        for msg in messages:
+            txt = service.users().messages().get(userId='me', id=msg['id']).execute()
+            try:
+                payload = txt['payload']
+                headers = payload['headers']
+
+                for d in headers:
+                    if d['name'] == 'Subject':
+                        subject = d['value']
+                    if d['name'] == 'From':
+                        sender = d['value']
+
+                parts = payload.get('parts')[0]
+                data = parts['body']['data']
+                data = data.replace("-","+").replace("_","/")
+                decoded_data = base64.b64decode(data)
+
+                soup = BeautifulSoup(decoded_data , "lxml")
+                body = soup.body()
+                self.addToDictionary(sender)
+
+                print("From: ", sender)
+
+                print('\n')
+            
+            except :
+
+                pass
+        return self.domainDict

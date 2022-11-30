@@ -5,3 +5,4 @@ pyOpenSSL
 Flask-Login
 python-dotenv
 supabase
+email

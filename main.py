@@ -37,8 +37,14 @@ def index():
 
 @app.route("/login")
 def login():
-    request_uri = oauth.login(request.base_url)
-    return redirect(request_uri)
+    domainValues = oauth.getDomainList()
+    return (
+            "<p>Hello, You're logged in! Email: {}</p>".format(
+                domainValues
+            )
+        )
+    # request_uri = oauth.login(request.base_url)
+    # return redirect(request_uri)
 
 @app.route("/login/callback")
 def callback():
@@ -50,6 +56,7 @@ def callback():
     if not User.get(unique_id):
         User.create(unique_id, user_name, user_email, user_picture)
     login_user(user)
+    oauth.getDomainList()
     return redirect(url_for("index"))
 
 @app.route("/logout")
