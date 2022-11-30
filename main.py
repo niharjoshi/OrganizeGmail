@@ -8,6 +8,7 @@ from flask_login import (
     logout_user,
 )
 from api.google_oauth import GoogleOAuth
+from api.gmail_utils import GmailUtils
 from api.user import User
 
 app = Flask(__name__)
@@ -24,14 +25,16 @@ def load_user(user_id):
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        return (
-            "<p>Hello, {}! You're logged in! Email: {}</p>"
-            "<div><p>Google Profile Picture:</p>"
-            '<img src="{}" alt="Google profile pic"></img></div>'
-            '<a class="button" href="/logout">Logout</a>'.format(
-                current_user.name, current_user.email, current_user.picture
-            )
-        )
+        emails = GmailUtils(current_user.gid).getEmails()
+        return (emails.to_html())
+        # return (
+        #     "<p>Hello, {}! You're logged in! Email: {}</p>"
+        #     "<div><p>Google Profile Picture:</p>"
+        #     '<img src="{}" alt="Google profile pic"></img></div>'
+        #     '<a class="button" href="/logout">Logout</a>'.format(
+        #         current_user.name, current_user.email, current_user.picture
+        #     )
+        # )
     else:
         return render_template("login.html")
 
