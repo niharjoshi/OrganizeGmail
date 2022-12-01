@@ -10,6 +10,7 @@ from flask_login import (
 from api.google_oauth import GoogleOAuth
 from api.gmail_utils import GmailUtils
 from api.user import User
+import json
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
@@ -26,7 +27,21 @@ def load_user(user_id):
 def index():
     if current_user.is_authenticated:
         emails = GmailUtils(current_user.gid).getEmails()
-        return (emails.to_html())
+
+        #return (emails.to_html())
+        data = []
+        for key in emails:
+            data.append((key, emails[key]))
+        
+        dataToHTML = []
+        for i in range(len(data)):
+            values = {
+                "tag": data[i][0],
+                "num": data[i][1]
+            }
+            dataToHTML.append(values)
+        
+        return render_template("dashboard.html", topTags = dataToHTML)
         # return (
         #     "<p>Hello, {}! You're logged in! Email: {}</p>"
         #     "<div><p>Google Profile Picture:</p>"

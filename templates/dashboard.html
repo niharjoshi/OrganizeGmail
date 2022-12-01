@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Email Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@0.2.3"></script>
+</head>
+
+<body>
+    <canvas id="treemap" width="900px" height="1000px"></canvas>
+    <script>
+        let topTags = {{topTags | safe}}
+
+        // let ansVal = topTags.map((ans)=>{
+        //     return JSON.parse(ans)
+        // })
+
+        topTags = topTags.map(e => ({
+            num: e.num,
+            tag: `${e.tag}`
+        }))
+
+        const canvas = document.getElementById("treemap");
+        const ctx = canvas.getContext("2d");
+        const chart = window.chart = new Chart(ctx, {
+            type: "treemap",
+            data: {
+                datasets: [{
+                    tree: topTags,
+                    key: "num",
+                    groups: ['tag'],
+                    spacing: 0.5,
+                    borderWidth: 2.5,
+                    fontColor: "black",
+                    fontSize: 20,
+                    fontStyle: "bold",
+                    borderColor: "rgb(151, 6, 44)"
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    enabled: false
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
