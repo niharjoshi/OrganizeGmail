@@ -1,5 +1,4 @@
 import os.path
-import pickle
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -12,22 +11,23 @@ class GmailUtils:
     def __init__(self, gid):
         self.gid = gid
         self.scopes = ["https://mail.google.com/"]
-        self.creds_storage = "credentials/"
+        self.creds_storage = "/tmp/"
         self.service = self.getGmailService()
         self.emails = pd.DataFrame(columns=["message_id", "sender_name", "sender_domain"])
     
     def getGmailService(self):
         creds = None
-        creds_file = self.creds_storage + str(self.gid) + ".json"
-        if os.path.exists(creds_file):
-            creds = Credentials.from_authorized_user_file(creds_file, self.scopes)
+        creds_token = self.creds_storage + self.gid + ".json"
+        creds_file = self.creds_storage + "credentials.json"
+        if os.path.exists(creds_token):
+            creds = Credentials.from_authorized_user_file(creds_token, self.scopes)
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(self.creds_storage + "credentials.json", self.scopes)
+                flow = InstalledAppFlow.from_client_secrets_file(creds_file, self.scopes)
                 creds = flow.run_local_server(port=0)
-            with open(creds_file, "w") as token:
+            with open(creds_token, "w") as token:
                 token.write(creds.to_json())
         try:
             service = build("gmail", "v1", credentials=creds)
