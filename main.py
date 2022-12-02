@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, request, url_for, render_template
+from flask import Flask, redirect, request, url_for, render_template, g
 from flask_login import (
     LoginManager,
     current_user,
@@ -23,45 +23,32 @@ oauth = GoogleOAuth()
 def load_user(user_id):
     return User.get(user_id)
 
-
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        emails = GmailUtils(current_user.gid).getEmails()
-
-        #return (emails.to_html())
-        data = []
-        for key in emails:
-            data.append((key, emails[key]))
-        dropDownList = []
+        gmail_utils = GmailUtils(current_user.gid)
+        email_counts = gmail_utils.getEmails()
         dataToHTML = []
-        for i in range(len(data)):
-            values = {
-                "tag": data[i][0],
-                "num": data[i][1]
-            }
-            dataToHTML.append(values)
-            dropDownList.append(data[i][0])
-        
-        return render_template("dashboard.html", topTags = dataToHTML, dropdownlist = dropDownList)
-        # return (
-        #     "<p>Hello, {}! You're logged in! Email: {}</p>"
-        #     "<div><p>Google Profile Picture:</p>"
-        #     '<img src="{}" alt="Google profile pic"></img></div>'
-        #     '<a class="button" href="/logout">Logout</a>'.format(
-        #         current_user.name, current_user.email, current_user.picture
-        #     )
-        # )
+        dropDownList = []
+        for element in email_counts:
+            dataToHTML.append(
+                {
+                    "tag": element,
+                    "num": email_counts[element]
+                }
+            )
+            dropDownList.append(element)
+        return render_template("dashboard.html", topTags=dataToHTML, dropdownlist=dropDownList)
     else:
         return render_template("login.html")
 
 @app.route("/delete")
 def delete():
-    orgToDelete = request.args.get('orgs')
-    print("Here I am in org delete")
-    return (
-        '<h1>Delete page "{}"</h1>'.format(orgToDelete)
-    )
+    orgToDelete = request.args.get("orgs")
+    gmail_utils = GmailUtils(current_user.gid)
+    gmail_utils.getEmails()
+    gmail_utils.deleteEmails(orgToDelete)
+    return redirect(url_for("index"))
 
 @app.route("/login")
 def login():

@@ -5,6 +5,9 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import pandas as pd
+import requests
+import shutil
+import json
 
 class GmailUtils:
 
@@ -13,12 +16,13 @@ class GmailUtils:
         self.scopes = ["https://mail.google.com/"]
         self.creds_storage = "/tmp/"
         self.service = self.getGmailService()
-        self.emails = pd.DataFrame(columns=["message_id", "sender_name", "sender_domain"])
+        self.emails = pd.DataFrame(columns=["message_id", "sender_domain"])
     
     def getGmailService(self):
         creds = None
         creds_token = self.creds_storage + self.gid + ".json"
         creds_file = self.creds_storage + "credentials.json"
+        shutil.copyfile("credentials/credentials.json", creds_file)
         if os.path.exists(creds_token):
             creds = Credentials.from_authorized_user_file(creds_token, self.scopes)
         if not creds or not creds.valid:
@@ -35,17 +39,10 @@ class GmailUtils:
         except HttpError as error:
             print(f"An error occurred while trying to access the Gmail API: {error}")
 
-    def getDomain(self,s):
-        angle = s.split('<')
-        rate = angle[1].split('@')
-        domain = rate[1].split('.')
-        return domain[0]
-
     def getEmails(self):
-        current_email = pd.DataFrame(columns=["message_id", "sender_name", "sender_domain"])
+        current_email = pd.DataFrame(columns=["message_id", "sender_domain"])
         results = self.service.users().messages().list(userId="me").execute()
         messages = results.get("messages")
-        domainDic = {}
         for message in messages:
             message_id = message["id"]
             sender_domain = None
@@ -53,24 +50,19 @@ class GmailUtils:
             for header in message_data["payload"]["headers"]:
                 if header["name"] == "From":
                     sender = header["value"].rsplit(" ", 1)
-                    if(len(sender) == 2):
-                        sender_name = sender[0]
-                        #print(sender)
-                        #print(len(sender))
-                        sender_domain = self.getDomain(sender[-1])
-                        #print(sender_domain)
-                        # row = pd.Series({"message_id": message_id, "sender_name": sender_name, "sender_domain": sender_domain})
-                        # current_email = pd.concat([current_email, row.to_frame().T], ignore_index=True)
-                        print(sender_name)
-                        if(sender_domain.capitalize() in domainDic):
-                            domainDic[sender_domain.capitalize()]+=1
-                        else:
-                            domainDic[sender_domain.capitalize()]=1
-                        # sender_name = sender[0]
-                        # sender_domain = sender[1][1:-1]
+                    sender_domain = sender[-1][1:-1]
+                    row = pd.Series({"message_id": message_id, "sender_domain": sender_domain})
+                    current_email = pd.concat([current_email, row.to_frame().T], ignore_index=True)
                     break
-            
-            
         self.emails = current_email
-        #return self.emails
-        return domainDic
+        return self.emails["sender_domain"].value_counts().to_dict()
+
+    def deleteEmails(self, sender_domain, date_range=None):
+        if not date_range:
+            print(sender_domain)
+            mail_ids_to_delete = self.emails.loc[self.emails["sender_domain"] == sender_domain]
+            mail_ids_to_delete = mail_ids_to_delete["message_id"].to_list()
+            print(mail_ids_to_delete)
+            for mail_id in mail_ids_to_delete:
+                self.service.users().messages().delete(userId="me", id=mail_id).execute()
+            self.getEmails()
