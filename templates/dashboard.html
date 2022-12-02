@@ -4,21 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Email Visualization</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/dashboard.css')}}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@0.2.3"></script>
 </head>
+<style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    
+    .topnav {
+      overflow: hidden;
+      background-color: #333;
+    }
+    
+    .topnav a {
+      float: left;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+    
+    .topnav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    
+    .topnav a.active {
+      background-color: #04AA6D;
+      color: white;
+    }
+    </style>
 
 <body>
-    <label for="domains">Choose a Domain:</label>
-    <form class="form-inline" method="GET" action="/delete">
-    <select name= orgs method="GET" action="/">
-        {% for org in dropdownlist %}
-        <option value= "{{org}}" SELECTED>{{org}}</option>"
-        {% endfor %}
-    </select>
-    <button type="submit" class="btn btn-default">Delete</button>
-    </form>
-    <canvas id="treemap" width="200px" height="400px"></canvas>
+    <title>Email Visualization</title>
+    <div class="topnav">
+        <a class="active"  href="/">Home</a>
+        <a href="/aboutus">About us</a>
+       
+        
+      </div>
+    <canvas id="treemap" width="200px" height="550px"></canvas>
     <script>
         // <option value="0">Select Domain</option>
         let topTags = {{topTags | safe}}
@@ -69,6 +98,15 @@
             }
         });
     </script>
+    <label style="font:bold"class="required" for="domains" >Choose a Domain:</label>
+    <form class="form-inline" method="GET" action="/delete">
+    <select name= orgs method="GET" action="/">
+        {% for org in dropdownlist %}
+        <option value= "{{org}}" SELECTED>{{org}}</option>"
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-default">Delete</button>
+    </form>
 </body>
 
 </html>
