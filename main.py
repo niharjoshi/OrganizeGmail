@@ -23,6 +23,7 @@ oauth = GoogleOAuth()
 def load_user(user_id):
     return User.get(user_id)
 
+
 @app.route("/")
 def index():
     if current_user.is_authenticated:
@@ -32,7 +33,7 @@ def index():
         data = []
         for key in emails:
             data.append((key, emails[key]))
-        
+        dropDownList = []
         dataToHTML = []
         for i in range(len(data)):
             values = {
@@ -40,8 +41,9 @@ def index():
                 "num": data[i][1]
             }
             dataToHTML.append(values)
+            dropDownList.append(data[i][0])
         
-        return render_template("dashboard.html", topTags = dataToHTML)
+        return render_template("dashboard.html", topTags = dataToHTML, dropdownlist = dropDownList)
         # return (
         #     "<p>Hello, {}! You're logged in! Email: {}</p>"
         #     "<div><p>Google Profile Picture:</p>"
@@ -52,6 +54,14 @@ def index():
         # )
     else:
         return render_template("login.html")
+
+@app.route("/delete")
+def delete():
+    orgToDelete = request.args.get('orgs')
+    print("Here I am in org delete")
+    return (
+        '<h1>Delete page "{}"</h1>'.format(orgToDelete)
+    )
 
 @app.route("/login")
 def login():
