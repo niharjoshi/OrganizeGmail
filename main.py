@@ -27,6 +27,15 @@ def load_user(user_id):
 def index():
     if current_user.is_authenticated:
         gmail_utils = GmailUtils(current_user.gid)
+        
+        return render_template("maindashboard.html", picture=current_user.picture, name=current_user.name, email=current_user.email)
+    else:
+        return render_template("login.html")
+
+@app.route("/dashboard")
+def dashboard():
+    if current_user.is_authenticated:
+        gmail_utils = GmailUtils(current_user.gid)
         email_counts = gmail_utils.getEmails()
         dataToHTML = []
         dropDownList = []
@@ -42,6 +51,7 @@ def index():
     else:
         return render_template("login.html")
 
+
 @app.route("/delete")
 def delete():
     orgToDelete = request.args.get("orgs")
@@ -54,6 +64,8 @@ def delete():
 def login():
     request_uri = oauth.login(request.base_url)
     return redirect(request_uri)
+
+
 
 @app.route("/login/callback")
 def callback():
