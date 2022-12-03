@@ -38,7 +38,7 @@ def index():
                 }
             )
             dropDownList.append(element)
-        return render_template("dashboard.html", topTags=dataToHTML, dropdownlist=dropDownList)
+        return render_template("dashboard.html", topTags=dataToHTML, dropdownlist=dropDownList, picture=current_user.picture)
     else:
         return render_template("login.html")
 

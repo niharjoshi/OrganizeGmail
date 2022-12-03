@@ -14,7 +14,7 @@ class GmailUtils:
     def __init__(self, gid):
         self.gid = gid
         self.scopes = ["https://mail.google.com/"]
-        self.creds_storage = "/tmp/"
+        self.creds_storage = "credentials/"
         self.service = self.getGmailService()
         self.emails = pd.DataFrame(columns=["message_id", "sender_domain"])
     
@@ -22,7 +22,7 @@ class GmailUtils:
         creds = None
         creds_token = self.creds_storage + self.gid + ".json"
         creds_file = self.creds_storage + "credentials.json"
-        shutil.copyfile("credentials/credentials.json", creds_file)
+        # shutil.copyfile("credentials/credentials.json", creds_file)
         if os.path.exists(creds_token):
             creds = Credentials.from_authorized_user_file(creds_token, self.scopes)
         if not creds or not creds.valid:
