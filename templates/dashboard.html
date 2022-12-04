@@ -97,20 +97,17 @@
           </button>
               <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                      <a class="nav-link" aria-current="page" href="#">
-                          <i class="far fa-comment"></i>
-                      </a>
+                    <form class="form-inline" method="GET" action="/logout">
+                      <button type="submit" class="button" style="margin-top: 13px;">Logout</button>
+                    </form>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" aria-current="page" href="#">
-                          <i class="far fa-flag"></i>
-                      </a>
-                  </li>
-                  <li class="nav-item">
-                     <img src={{picture}} alt="" style="width: 25px;margin-top: 9px;
-                     border-radius: 50px;
-                     margin-left: 8px;">
-                  </li>
+                    <img src={{picture}} alt="" style="
+                    width: 50px;
+                    border-radius: 50px;
+                    margin-left: 8px;
+                    ">
+                 </li>
               </ul>
           </div>
         </div>
