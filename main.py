@@ -58,7 +58,7 @@ def delete():
     gmail_utils = GmailUtils(current_user.gid)
     gmail_utils.getEmails()
     gmail_utils.deleteEmails(orgToDelete)
-    return redirect(url_for("index"))
+    return redirect(url_for("dashboard"))
 
 @app.route("/login")
 def login():

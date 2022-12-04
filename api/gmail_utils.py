@@ -14,27 +14,26 @@ class GmailUtils:
     def __init__(self, gid):
         self.gid = gid
         self.scopes = ["https://mail.google.com/"]
-        self.creds_storage = "credentials/"
+        # self.creds_storage = "credentials/"
         self.service = self.getGmailService()
         self.emails = pd.DataFrame(columns=["message_id", "sender_domain"])
     
     def getGmailService(self):
         creds = None
-        creds_token = self.creds_storage + self.gid + ".json"
-        creds_file = self.creds_storage + "credentials.json"
-        # shutil.copyfile("credentials/credentials.json", creds_file)
-        if os.path.exists(creds_token):
-            creds = Credentials.from_authorized_user_file(creds_token, self.scopes)
+        shutil.copyfile("token.json", "/tmp/token.json")
+        shutil.copyfile("credentials.json", "/tmp/credentials.json")
+        if os.path.exists("/tmp/token.json"):
+            creds = Credentials.from_authorized_user_file('/tmp/token.json', self.scopes)
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(creds_file, self.scopes)
+                flow = InstalledAppFlow.from_client_secrets_file('/tmp/credentials.json', self.scopes)
                 creds = flow.run_local_server(port=0)
-            with open(creds_token, "w") as token:
+            with open('/tmp/token.json', 'w') as token:
                 token.write(creds.to_json())
         try:
-            service = build("gmail", "v1", credentials=creds)
+            service = build('gmail', 'v1', credentials=creds)
             return service
         except HttpError as error:
             print(f"An error occurred while trying to access the Gmail API: {error}")
