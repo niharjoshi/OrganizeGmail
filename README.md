@@ -3,10 +3,11 @@ Each Google Account includes 15 GB of storage, which is shared across Gmail, Goo
 
 Meet OG, a new way to free up your Gmail inbox and make more space available for the conversations that really matter. List and filter your emails by sender or domain and use the treemap to nuke whatever you don't need. Get rid of those pesky Amazon delivery emails and Zuckerberg's Metaverse spam, with one click of a button.
 
+### Demo available on our website and YouTube().
+
 ## Features
 - Import all your Google account emails in one place
-- Index emails for quick retreival and query support
-- Visualize emails by multiple filters across a clustered treemap
+- Visualize emails across a clustered treemap
 - Easily find out who's spamming you or which emails eat up your space
 - Delete unwanted emails by sender to free up space instantly
 - Built on top of Google's SSO for security
@@ -19,12 +20,13 @@ OG uses your Google account for authentication so your login is securely handled
 ## Tech Stack
 ![Tech Stack Diagram](https://user-images.githubusercontent.com/50745306/205470443-d91b0f0d-0681-4314-b1f1-70c30be812c1.jpg)
 
-## MVP
-(Placeholder URL for our app: [Organize Gmail](https://organizegmail-369023.ue.r.appspot.com/))
+(URL for our app: [Organize Gmail](https://organizegmail-369023.ue.r.appspot.com/))
 
-Our goal for the minimum viable product is to deliver a Django dashboard hosted on Vercel that logs you in with Google's SSO and helps you visualize your Gmail inbox by filters like sender and domain.
 
-However, our final aim is to allow the user to mass delete emails based on the selected filter. We will also try to include the recompression of attachments feature to save even more Google Drive space.
+## Flow of Control
+![Flow of Control](static/flow_of_control.png)
 
-## MVP Deliverable Update:
-Our Google SSO works and logs us in but we are not able to host it on Vercel. For some reason, Vercel serves the index.py file instead of the API itself.
+## Challenges
+- Google does not allow us to publish this app as we do not have enough users. We have submitted a request to Google, but approval takes at least a week. Mail us your email ID @ nsj0596@gmail.com if you want to be a beta tester!
+
+- Since our app isn't published yet, our Gmail API access is limited. You will see emails from a service account instead of your own due to security reasons. If you want to see your own inbox, create an OAuth permit in your GCP console, download your credentials.json file and run this app locally.
