@@ -17,7 +17,7 @@ OG isn't just a CRUD app for email management - it's a colourful dashboard that 
 OG uses your Google account for authentication so your login is securely handled by the google-auth OAuth servers. We do not handle your usernames or password in our backend in any way.
 
 ## Tech Stack
-![Tech Stack Diagram](https://user-images.githubusercontent.com/50745306/200488463-3ed893ee-77de-4844-99b1-c16784094fad.jpg)
+![Tech Stack Diagram](https://user-images.githubusercontent.com/50745306/205470443-d91b0f0d-0681-4314-b1f1-70c30be812c1.jpg)
 
 ## MVP
 (Placeholder URL for our app: [Organize Gmail](https://organizegmail-369023.ue.r.appspot.com/))
